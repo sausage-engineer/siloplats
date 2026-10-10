@@ -96,11 +96,7 @@ This is especially useful for multi-PWA deployments where each app should have i
 ### 8.2 Content Authoring
 Each page must be authored as a single Markdown file. Each content item may include front matter metadata such as:
 - title
-- slug
 - date
-- author
-- tags
-- category
 - draft status
 - libraries: a list of named library bundles to include on that page
 - data: a list of named data bundles to include on that page
@@ -110,7 +106,6 @@ Example front matter:
 ```yaml
 ---
 title: Welcome
-slug: welcome
 libraries:
   - bootstrap
 data:
@@ -131,11 +126,11 @@ The app must generate a standalone HTML document for each Markdown page. Generat
 - a copy of each selected data bundle under `target/<silo>/data/<bundle-name>/` for browser or client-side access
 - app mount points for each named app in the front matter, represented as HTML div elements that JavaScript can target
 - optional metadata in the document head when provided by front matter
-- a generated filename and URL based on the page's slug or path
+- a generated filename and URL based on the page's source path
 
 Each app in the `apps` front matter must be converted into a placeholder div in the HTML output, so JavaScript can find and hydrate the app by name. A simple convention is to emit `div` elements with a `data-app` attribute such as `<div data-app="todo"></div>`. The app placeholders should be inserted into the page body alongside the rendered Markdown content.
 
-The resulting HTML document must be composed from the Markdown-rendered body plus the configured library asset references and data bundle copies, without requiring HTML templates. Every generated page must include a `<base href="/<silo-name>/">` tag in the document head so that local asset paths can remain silo-scoped and stable regardless of page depth. For example, a page at `/my-app/subfolder/page.html` can reference `lib/bootstrap/css/bootstrap.css` without any `../` path logic because the browser resolves it against `/my-app/`.
+The resulting HTML document must be composed from the Markdown-rendered body plus the configured library asset references and data bundle copies, without requiring HTML templates. Every generated page must include a `<base href="<silo-name>/">` tag in the document head so that local asset paths can remain silo-scoped and stable regardless of page depth. For example, a page at `/my-app/subfolder/page.html` can reference `lib/bootstrap/css/bootstrap.css` without any `../` path logic because the browser resolves it against `my-app/`.
 
 ### 8.4 Library Registry
 The project must support a root-level `lib` directory that contains library folders. Each library is a self-contained folder, such as `lib/bootstrap/` or `lib/fontawesome/`. The folder may contain nested CSS, JavaScript, fonts, images, or other assets in any structure it needs.
@@ -147,12 +142,10 @@ The project must support a root-level `data` directory that contains data bundle
 
 When a page lists a named data bundle in front matter, the build process must copy the corresponding folder into `target/<silo>/data/<bundle-name>/` and make it available to the generated page using the same bundle naming convention as the library registry. Data bundles should be optional, page-scoped, and easy to wire into JavaScript or client-side applications without requiring a backend. The primary purpose of this folder is to hold static assets and `.json`-style data files that are consumed by the generated site at runtime.
 
-### 8.6 Collections and Taxonomy
+### 8.6 Collections
 The app must support grouping content into logical collections such as:
 - posts
 - pages
-- tags
-- categories
 
 This may be implemented as a basic collection model with automatic listing generation.
 
@@ -238,14 +231,10 @@ The project uses a fixed directory layout: `src/` stores silo content, `lib/` an
 - id: string
 - type: page | post
 - title: string
-- slug: string
 - date: ISO date
-- author: string
 - summary: string
 - rawContent: string
 - metadata: object
-- tags: array
-- category: string
 - draft: boolean
 - libraries: array of strings
 - data: array of strings
@@ -336,7 +325,6 @@ This is enough to validate the product’s value before expanding features.
 - preview command
 
 ### Phase 2: Publishing Experience
-- tags and categories
 - better pagination and collection pages
 - default public library bundles
 - improved asset handling
