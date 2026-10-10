@@ -1,6 +1,5 @@
 ---
 title: My App
-author: Sausage Engineer
 libraries:
   - bootstrap
 data:

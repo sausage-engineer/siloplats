@@ -79,7 +79,7 @@ public final class SiteBuilder {
             String html = "<!DOCTYPE html>\n"
                     + "<html lang=\"en\">\n"
                     + "<head>\n"
-                    + "  <base href=\"/" + silo.name() + "/\">\n"
+                    + "  <base href=\"" + silo.name() + "/\">\n"
                     + "  <meta charset=\"UTF-8\">\n"
                     + "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
                     + "  <title>" + escapeHtml(title) + "</title>\n"
@@ -138,7 +138,7 @@ public final class SiteBuilder {
         StringBuilder out = new StringBuilder();
         for (Map.Entry<String, String> entry : metadata.entrySet()) {
             String key = entry.getKey();
-            if (key.equals("title") || key.equals("slug") || key.equals("libraries") || key.equals("data") || key.equals("apps") || key.equals("draft")) {
+            if (key.equals("title") || key.equals("libraries") || key.equals("data") || key.equals("apps") || key.equals("draft")) {
                 continue;
             }
             out.append("  <meta name=\"" + escapeHtml(key) + "\" content=\"" + escapeHtml(entry.getValue()) + "\">\n");

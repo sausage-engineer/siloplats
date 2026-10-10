@@ -1,6 +1,5 @@
 ---
 title: Main Site
-author: Sausage Engineer
 libraries:
   - bootstrap
 data:
