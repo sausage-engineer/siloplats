@@ -56,14 +56,14 @@ The implementation must satisfy the following technical constraints:
 - dynamic forms or comments systems
 - multi-tenant hosting
 
-## 8. Functional Requirements
+## 6. Functional Requirements
 
-### 8.1 Site Layout
+### 6.1 Site Layout
 The app uses a fixed root layout with four canonical top-level directories: `src/`, `lib/`, `data/`, and `target/`. `src/` contains one or more silo folders and the Markdown pages they own. `lib/` and `data/` act as shared package repositories that can be referenced by any silo during the build. `target/` is generated output and contains the selected library and data packages copied into the appropriate silo output path.
 
 By default, the generated output should be written to a `target` directory under the input project root. The application should treat `src/` as the canonical source root when present and otherwise allow direct page discovery from the project root.
 
-#### 8.1.1 Siloed Sub-Site Model
+#### 6.1.1 Siloed Sub-Site Model
 The website is intended to be a collection of independent top-level silos. Each silo represents a distinct deployable sub-site, such as a PWA, a docs surface, or a marketing landing page, and sits at its own top-level folder under `src/`. The project root has four canonical top-level directories: `src/`, `lib/`, `data/`, and `target/`. `src/` contains the silo folders and markdown pages, while `lib/` and `data/` act like package repositories from which any silo may pull shared bundles during the build. `target/` is generated output and contains the selected library and data packages copied into the appropriate silo output path.
 
 Markdown files at the project root are treated as part of a special `main` silo under `src/`. They may reference `lib` and `data` bundles from the shared repositories at the root, even though they are not under a nested subfolder. The `main` silo uses the predictable output path `target/main/...`, which keeps the site landing page or shared content consistent with the rest of the silo model without creating per-silo source copies of asset packages.
@@ -72,7 +72,7 @@ This model keeps each sub-site self-contained at output time: the build must res
 
 This is especially useful for multi-PWA deployments where each app should have its own copy of all assets it requires at runtime, but where the authoring and package management stay centralized in root-level `lib` and `data` repositories. A silo may still contain nested pages and child directories under `src/<silo>/`; the top-level silo folder is the logical boundary for the URL and asset ownership.
 
-### 8.2 Content Authoring
+### 6.2 Content Authoring
 Each page must be authored as a single Markdown file. Each content item may include front matter metadata such as:
 - title
 - date
@@ -96,7 +96,7 @@ apps:
 
 The markdown file is the complete source for one page. There are no page templates, no shared layout wrappers, and no variable interpolation in the initial version.
 
-### 8.3 Page Generation and HTML Composition
+### 6.3 Page Generation and HTML Composition
 The app must generate a standalone HTML document for each Markdown page. Generated items should include:
 - rendered body content from the Markdown file
 - stylesheet link tags for each selected library CSS bundle
@@ -110,24 +110,24 @@ Each app in the `apps` front matter must be converted into a placeholder div in 
 
 The resulting HTML document must be composed from the Markdown-rendered body plus the configured library asset references and data bundle copies, without requiring HTML templates. Every generated page must include a `<base href="<silo-name>/">` tag in the document head so that local asset paths can remain silo-scoped and stable regardless of page depth. For example, a page at `/my-app/subfolder/page.html` can reference `lib/bootstrap/css/bootstrap.css` without any `../` path logic because the browser resolves it against `my-app/`.
 
-### 8.4 Library Registry
+### 6.4 Library Registry
 The project must support a root-level `lib` directory that contains library folders. Each library is a self-contained folder, such as `lib/bootstrap/` or `lib/fontawesome/`. The folder may contain nested CSS, JavaScript, fonts, images, or other assets in any structure it needs.
 
 Bootstrap should be provided as a default library bundle in the initial product, and page front matter may reference it by name in the same way as any other library. When a page lists a named library in front matter, the build process must copy the entire corresponding library folder into `target/<silo>/lib/<library-name>/` and add the appropriate HTML link/script tags to the generated document.
 
-### 8.5 Data Registry
+### 6.5 Data Registry
 The project must support a root-level `data` directory that contains data bundles intended for static content assets and structured payloads. Each data bundle is a self-contained folder, such as `data/site-data/` or `data/content/`, and may contain JSON files, CSV files, YAML files, images, icons, or other static assets that are intended to be served alongside the site. The directory should behave the same way as `lib`: a named bundle is resolved from the shared root `data` repository and copied into `target/<silo>/data/<bundle-name>/` when a page requests it in front matter.
 
 When a page lists a named data bundle in front matter, the build process must copy the corresponding folder into `target/<silo>/data/<bundle-name>/` and make it available to the generated page using the same bundle naming convention as the library registry. Data bundles should be optional, page-scoped, and easy to wire into JavaScript or client-side applications without requiring a backend. The primary purpose of this folder is to hold static assets and `.json`-style data files that are consumed by the generated site at runtime.
 
-### 8.6 Collections
+### 6.6 Collections
 The app must support grouping content into logical collections such as:
 - posts
 - pages
 
 This may be implemented as a basic collection model with automatic listing generation.
 
-### 8.7 Asset Handling
+### 6.7 Asset Handling
 The app must support copying static assets into the generated site, including:
 - images
 - CSS
@@ -137,38 +137,38 @@ The app must support copying static assets into the generated site, including:
 
 Asset copying must respect page-local source, library configuration, and data bundle configuration so each page receives the assets named in its front matter.
 
-### 8.8 Build and Preview
+### 6.8 Build and Preview
 The app must provide at least two core commands:
 - build: generate static output
 - preview: run a local development server and rebuild on source changes
 
-### 8.9 Deployment Readiness
+### 6.9 Deployment Readiness
 The generated site must be deployable without requiring a running application server. Output should be static HTML/CSS/JS assets suitable for hosting on static providers.
 
-## 9. Non-Functional Requirements
+## 7. Non-Functional Requirements
 
-### 9.1 Performance
+### 7.1 Performance
 - builds should complete quickly for small and medium-sized sites
 - local preview should respond promptly to source changes
 - generated output should be lightweight and easy to serve
 
-### 9.2 Reliability
+### 7.2 Reliability
 - build output should be deterministic for the same input
 - invalid content should fail clearly with actionable errors
 - site generation should avoid silently dropping content
 
-### 9.3 Simplicity
+### 7.3 Simplicity
 - configuration should be easy to read and edit
 - defaults should be sensible
 - the CLI should expose a minimal number of commands
 
-### 9.4 Portability
+### 7.4 Portability
 - the project should run on common developer machines
 - generated output should be portable across static hosting providers
 
-## 10. Proposed Architecture
+## 8. Proposed Architecture
 
-### 10.1 High-Level Components
+### 8.1 High-Level Components
 - CLI entry points
 - Configuration loader
 - Content parser
@@ -180,7 +180,7 @@ The generated site must be deployable without requiring a running application se
 - Site builder
 - Preview server
 
-### 10.2 Suggested Runtime Model
+### 8.2 Suggested Runtime Model
 The app should follow a simple build-centric architecture:
 1. load configuration
 2. discover page Markdown files
@@ -194,9 +194,9 @@ The app should follow a simple build-centric architecture:
 
 This model keeps the project understandable and reduces operational complexity.
 
-## 11. Data Model
+## 9. Data Model
 
-### 11.1 SiteLayout
+### 9.1 SiteLayout
 - srcRoot: string
 - libRoot: string
 - dataRoot: string
@@ -205,7 +205,7 @@ This model keeps the project understandable and reduces operational complexity.
 
 The project uses a fixed directory layout: `src/` stores silo content, `lib/` and `data/` are package repositories, and `target/` holds generated output. There is no per-directory configuration file in the initial product.
 
-### 11.2 ContentItem
+### 9.2 ContentItem
 - id: string
 - type: page | post
 - title: string
@@ -218,24 +218,24 @@ The project uses a fixed directory layout: `src/` stores silo content, `lib/` an
 - data: array of strings
 - apps: array of strings
 
-### 11.3 LibraryBundle
+### 9.3 LibraryBundle
 - name: string
 - path: string
 - type: css | js | asset
 - files: array of file paths
 
-### 11.4 DataBundle
+### 9.4 DataBundle
 - name: string
 - path: string
 - kind: json | csv | yaml | text | asset
 - files: array of file paths
 
-### 11.5 Asset
+### 9.5 Asset
 - sourcePath: string
 - targetPath: string
 - kind: image | css | js | font | data | other
 
-### 11.6 PageRenderResult
+### 9.6 PageRenderResult
 - htmlBody: string
 - cssLinks: array of href values
 - jsSources: array of src values
@@ -243,9 +243,9 @@ The project uses a fixed directory layout: `src/` stores silo content, `lib/` an
 - appMounts: array of app names or placeholder selectors
 - outputPath: string
 
-## 12. User Experience Flow
+## 10. User Experience Flow
 
-### 12.1 Initial Setup
+### 10.1 Initial Setup
 1. Create a project directory
 2. Create `src/`, `lib/`, and `data/` directories
 3. Add content files under top-level silo folders in `src/`
@@ -254,19 +254,19 @@ The project uses a fixed directory layout: `src/` stores silo content, `lib/` an
 6. Run build
 7. Verify output is generated in `<project-root>/target`
 
-### 12.2 Local Preview
+### 10.2 Local Preview
 1. Run preview command
 2. Start local server
 3. Watch relevant Markdown, library, and data files for changes
 4. Rebuild site automatically
 5. Refresh browser to inspect output
 
-### 12.3 Deployment
+### 10.3 Deployment
 1. Run production build
 2. Upload generated static output to a static hosting provider
 3. Configure domain or custom path if needed
 
-## 13. Acceptance Criteria
+## 11. Acceptance Criteria
 
 The MVP will be considered successful if:
 - a user can create a root `src/`, `lib/`, and `data/` layout
@@ -280,7 +280,7 @@ The MVP will be considered successful if:
 - the output is deployable to a static hosting provider
 - invalid content yields a clear error
 
-## 14. Risks and Constraints
+## 12. Risks and Constraints
 
 - scope creep from trying to support too many features early
 - over-engineered asset or styling conventions too early in the project
@@ -292,7 +292,7 @@ Mitigation:
 - document config and content conventions clearly
 - make preview and build share the same core rendering pipeline
 
-## 15. Success Metrics
+## 13. Success Metrics
 
 For the initial product, success will be measured by:
 - ability to produce a valid static site in a single build command
@@ -300,6 +300,6 @@ For the initial product, success will be measured by:
 - total setup time under a short onboarding flow
 - minimal configuration required for basic use
 
-## 16. Summary
+## 14. Summary
 
 Siloplats should be a simple, dependable static site generator focused on clarity, fast builds, and easy deployment. The initial version should solve the core publishing workflow without introducing runtime complexity or backend management.
