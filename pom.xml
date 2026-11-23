@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sausage</groupId>
-    <artifactId>sausage-site</artifactId>
+    <artifactId>siloplats</artifactId>
     <version>0.1.0</version>
-    <name>sausage-site</name>
+    <name>siloplats</name>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
