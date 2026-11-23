@@ -1,4 +1,4 @@
-# sausage-site
+# siloplats
 
 A Java 25 static site generator that turns Markdown files into simple HTML pages.
 
@@ -11,12 +11,12 @@ A Java 25 static site generator that turns Markdown files into simple HTML pages
 
 2. Build a site from a project directory:
    ```bash
-   java -jar target/sausage-site-0.1.0.jar build demo-site
+   java -jar target/siloplats-0.1.0.jar build demo-site
    ```
 
 3. Preview locally:
    ```bash
-   java -jar target/sausage-site-0.1.0.jar preview demo-site
+   java -jar target/siloplats-0.1.0.jar preview demo-site
    ```
 
 The build output defaults to `<project-root>/target`.
