@@ -46,7 +46,6 @@ The implementation must satisfy the following technical constraints:
 
 ## 5. Non-Goals
 
-The initial version will not include:
 - user authentication or authorization
 - database-backed content management
 - server-side rendering
@@ -56,26 +55,6 @@ The initial version will not include:
 - plugin marketplace or ecosystem at v1
 - dynamic forms or comments systems
 - multi-tenant hosting
-
-## 6. Target Users
-
-### 6.1 Developer publisher
-A developer who wants to ship a site for their project, portfolio, blog, or documentation with minimal infrastructure.
-
-### 6.2 Content author
-A writer or editor who wants to create pages and posts in a simple, low-friction format with minimal tooling.
-
-### 6.3 Site maintainer
-A person responsible for configuration, asset library management, navigation, and deployment but not a full-stack app developer.
-
-## 7. Core User Stories
-
-- As a content author, I can write a post in Markdown so it renders as a page.
-- As a site owner, I can configure site metadata such as title, description, and navigation.
-- As a developer, I can choose which named library bundles are included on a page.
-- As a maintainer, I can preview the site locally before deploying.
-- As a publisher, I can build a static output directory suitable for deployment.
-- As a user, I can browse a site with clean, semantic HTML and minimal JavaScript.
 
 ## 8. Functional Requirements
 
@@ -97,7 +76,6 @@ This is especially useful for multi-PWA deployments where each app should have i
 Each page must be authored as a single Markdown file. Each content item may include front matter metadata such as:
 - title
 - date
-- draft status
 - libraries: a list of named library bundles to include on that page
 - data: a list of named data bundles to include on that page
 - apps: a list of app names that should be mounted in the generated HTML
@@ -302,40 +280,7 @@ The MVP will be considered successful if:
 - the output is deployable to a static hosting provider
 - invalid content yields a clear error
 
-## 14. Minimum Viable Product (MVP)
-
-The MVP should prioritize the smallest useful, reliable version of the product:
-- single-file Markdown page support
-- simple front matter metadata
-- library-based asset selection from the top-level `lib` directory
-- static HTML generation without templates
-- local preview server
-- asset copying
-
-This is enough to validate the product’s value before expanding features.
-
-## 15. Roadmap
-
-### Phase 1: MVP
-- project scaffold
-- root `src/lib/data/target` layout validation
-- Markdown rendering
-- library asset pipeline
-- build command
-- preview command
-
-### Phase 2: Publishing Experience
-- better pagination and collection pages
-- default public library bundles
-- improved asset handling
-
-### Phase 3: Scale and Flexibility
-- richer metadata handling
-- external data or content sources
-- deployment integrations
-- optional advanced asset or theme conventions
-
-## 16. Risks and Constraints
+## 14. Risks and Constraints
 
 - scope creep from trying to support too many features early
 - over-engineered asset or styling conventions too early in the project
@@ -347,7 +292,7 @@ Mitigation:
 - document config and content conventions clearly
 - make preview and build share the same core rendering pipeline
 
-## 17. Success Metrics
+## 15. Success Metrics
 
 For the initial product, success will be measured by:
 - ability to produce a valid static site in a single build command
@@ -355,6 +300,6 @@ For the initial product, success will be measured by:
 - total setup time under a short onboarding flow
 - minimal configuration required for basic use
 
-## 18. Summary
+## 16. Summary
 
 Siloplats should be a simple, dependable static site generator focused on clarity, fast builds, and easy deployment. The initial version should solve the core publishing workflow without introducing runtime complexity or backend management.
