@@ -1,8 +1,8 @@
-# Sausage Site Specification
+# Siloplats Specification
 
 ## 1. Overview
 
-Sausage Site is a Java 25 static site generator for building content-driven websites from standalone Markdown pages. It is designed for developers and content authors who want fast, dependable publishing without a server runtime, database, or CMS backend.
+Siloplats is a Java 25 static site generator for building content-driven websites from standalone Markdown pages. It is designed for developers and content authors who want fast, dependable publishing without a server runtime, database, or CMS backend.
 
 The product generates a complete static site that can be deployed to any static host, such as GitHub Pages, Netlify, Cloudflare Pages, or any web server that serves HTML files. The application should be implemented as a Java 25 command-line tool with a simple, repeatable build and preview workflow. A popular Java Markdown library such as Flexmark is the preferred implementation choice for parsing and rendering Markdown content.
 
@@ -16,7 +16,7 @@ Each page is a single Markdown file. The project root contains package repositor
 
 Many small sites and personal projects need a simple way to publish content quickly without managing a backend system. Existing solutions are often either too heavy, too opinionated, or too difficult to customize.
 
-Sausage Site should provide a minimal but robust workflow:
+Siloplats should provide a minimal but robust workflow:
 - single-page Markdown content files
 - predictable build output
 - named library bundles for CSS and JavaScript assets
@@ -357,4 +357,4 @@ For the initial product, success will be measured by:
 
 ## 18. Summary
 
-Sausage Site should be a simple, dependable static site generator focused on clarity, fast builds, and easy deployment. The initial version should solve the core publishing workflow without introducing runtime complexity or backend management.
+Siloplats should be a simple, dependable static site generator focused on clarity, fast builds, and easy deployment. The initial version should solve the core publishing workflow without introducing runtime complexity or backend management.
