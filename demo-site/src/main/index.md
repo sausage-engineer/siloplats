@@ -3,7 +3,7 @@ title: Main Site
 libraries:
   - bootstrap
 data:
-  - site-data
+  - us-holidays
 apps:
   - todo
 ---

@@ -3,7 +3,7 @@ title: My App
 libraries:
   - bootstrap
 data:
-  - site-data
+  - us-holidays
 apps:
   - todo
 ---
